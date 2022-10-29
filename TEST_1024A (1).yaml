@@ -1,0 +1,157 @@
+---
+proxy-providers:
+  白月光:
+    type: http
+    path: "./proxy_provider/白月光.yaml"
+    filter: 香港|新加坡|美国|日本|防失联
+    url: https://sub.subconnect.org/api/v1/client/subscribe?token=10f6faeca04dc2b7ef469de499957765&flag=clash&emoji=false&udp=false
+    interval: 86400
+    health-check:
+      enable: true
+      url: http://www.gstatic.com/generate_204
+      interval: 600
+  YTOO:
+    type: http
+    path: "./proxy_provider/YTOO.yaml"
+    filter: 日用|高级|印度
+    url: https://api.stentvessel.top/sub?target=clash&new_name=true&clash.doh=true&filename=YToo_SS&config=https%3A%2F%2Fsubweb.s3.fr-par.scw.cloud%2FRemoteConfig%2Fcustomized%2Fytoo.ini&url=https%3A%2F%2Fapi.ytoo.xyz%2Fosubscribe.php%3Fsid%3D7352%26token%3DnwzPrtP0VC9K%26sip002%3D1
+    interval: 86400
+    health-check:
+      enable: true
+      url: http://www.gstatic.com/generate_204
+      interval: 600
+  咸鱼sg:
+    type: http
+    path: "./proxy_provider/咸鱼sg.yaml"
+    filter: 新加坡
+    url: https://api.nexuscloud.li/sub?target=clash&new_name=true&emoji=true&udp=false&config=https%3A%2F%2Fcdn.jsdelivr.net%2Fgh%2FSleepyHeeead%2Fsubconverter-config%40master%2Fremote-config%2Fspecial%2Fbasic.ini&url=https%3A%2F%2Fnexuscloud.ch%2Fmodules%2Fservers%2Fnexus%2Fosubscribe.php%3Fsid%3D163%26token%3DhiwcJmCvdtfF%26sip002%3D1
+    interval: 86400
+    health-check:
+      enable: true
+      url: http://www.gstatic.com/generate_204
+      interval: 600
+  YTOOsg:
+    type: http
+    path: "./proxy_provider/YTOOsg.yaml"
+    filter: 高级 专线 狮城
+    url: https://api.stentvessel.top/sub?target=clash&new_name=true&clash.doh=true&filename=YToo_SS&config=https%3A%2F%2Fsubweb.s3.fr-par.scw.cloud%2FRemoteConfig%2Fcustomized%2Fytoo.ini&url=https%3A%2F%2Fapi.ytoo.xyz%2Fosubscribe.php%3Fsid%3D7352%26token%3DnwzPrtP0VC9K%26sip002%3D1
+    interval: 86400
+    health-check:
+      enable: true
+      url: http://www.gstatic.com/generate_204
+      interval: 600
+  YTOOus:
+    type: http
+    path: "./proxy_provider/YTOOus.yaml"
+    filter: 高级 专线 美国
+    url: https://api.stentvessel.top/sub?target=clash&new_name=true&clash.doh=true&filename=YToo_SS&config=https%3A%2F%2Fsubweb.s3.fr-par.scw.cloud%2FRemoteConfig%2Fcustomized%2Fytoo.ini&url=https%3A%2F%2Fapi.ytoo.xyz%2Fosubscribe.php%3Fsid%3D7352%26token%3DnwzPrtP0VC9K%26sip002%3D1
+    interval: 86400
+    health-check:
+      enable: true
+      url: http://www.gstatic.com/generate_204
+      interval: 600
+proxy-groups:
+- name: Auto - UrlTest
+  type: url-test
+  disable-udp: false
+  use:
+  - 白月光
+  - YTOO
+  url: http://cp.cloudflare.com/generate_204
+  interval: '600'
+  tolerance: '150'
+- name: Proxy
+  type: select
+  disable-udp: false
+  proxies:
+  - Auto - UrlTest
+  - DIRECT
+  use:
+  - 白月光
+  - YTOO
+- name: Microsoft
+  type: select
+  disable-udp: false
+  proxies:
+  - DIRECT
+  - Proxy
+- name: Apple
+  type: select
+  disable-udp: false
+  proxies:
+  - DIRECT
+  - Proxy
+- name: Google FCM
+  type: select
+  disable-udp: false
+  proxies:
+  - DIRECT
+  - Proxy
+- name: Netflix
+  type: select
+  disable-udp: false
+  proxies:
+  - Global TV
+  - DIRECT
+  use:
+  - 白月光
+  - YTOOsg
+  - 咸鱼sg
+- name: Youtube
+  type: select
+  disable-udp: true
+  proxies:
+  - Global TV
+  - DIRECT
+  use:
+  - YTOOus
+- name: AdBlock
+  type: select
+  disable-udp: false
+  proxies:
+  - REJECT
+  - DIRECT
+- name: Asian TV
+  type: select
+  disable-udp: false
+  proxies:
+  - DIRECT
+  - Proxy
+- name: Global TV
+  type: select
+  disable-udp: false
+  proxies:
+  - Proxy
+  - DIRECT
+  use:
+  - 白月光
+  - YTOO
+- name: Speedtest
+  type: select
+  disable-udp: false
+  proxies:
+  - Proxy
+  - DIRECT
+  use:
+  - 白月光
+  - YTOO
+- name: Telegram
+  type: select
+  disable-udp: false
+  proxies:
+  - Proxy
+  - DIRECT
+- name: Domestic
+  type: select
+  disable-udp: false
+  proxies:
+  - DIRECT
+- name: Others
+  type: select
+  disable-udp: false
+  proxies:
+  - Proxy
+  - DIRECT
+  use:
+  - 白月光
+  - YTOO
